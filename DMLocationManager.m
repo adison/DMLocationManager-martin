@@ -84,13 +84,6 @@ static DMLocationManager* sharedLocationManager = nil;
 - (void)dealloc
 {
 	_locationManager.delegate = nil;
-	[_locationManager release];
-	
-	[_delegates release];
-	
-	[_queryingTimer release];
-	
-	[super dealloc];
 }
 
 - (void)initLocationManager
@@ -269,7 +262,7 @@ static DMLocationManager* sharedLocationManager = nil;
 {
 	[self stopQueryingTimer];
 	
-	_queryingTimer = [[NSTimer scheduledTimerWithTimeInterval: _queryingInterval target: self selector: @selector(queryingTimerPassed:) userInfo: nil repeats: YES] retain];
+	_queryingTimer = [NSTimer scheduledTimerWithTimeInterval: _queryingInterval target: self selector: @selector(queryingTimerPassed:) userInfo: nil repeats: YES];
 }
 
 - (void)stopQueryingTimer
@@ -308,7 +301,7 @@ static DMLocationManager* sharedLocationManager = nil;
 {
 	[self stopLoopTimer];
 	
-	_loopTimer = [[NSTimer scheduledTimerWithTimeInterval: _loopTimeInterval target: self selector: @selector(loopTimerPassed:) userInfo: nil repeats: YES] retain];
+	_loopTimer = [NSTimer scheduledTimerWithTimeInterval: _loopTimeInterval target: self selector: @selector(loopTimerPassed:) userInfo: nil repeats: YES];
 }
 
 - (void)stopLoopTimer
@@ -436,16 +429,16 @@ static DMLocationManager* sharedLocationManager = nil;
     // We have a measurement that meets our requirements, so we can stop updating the location
     if (newLocation.horizontalAccuracy <= manager.desiredAccuracy)
 	{
-        [_location release];
-		_location = [newLocation retain];
+        _location = nil;
+		_location = [newLocation copy];
 		
 		[self didUpdateLocationHandler];
 	}
     // New location is better than the old one but does not reach the desired accuracy
 	else if (_location == nil || _location.horizontalAccuracy > newLocation.horizontalAccuracy)
 	{
-		[_location release];
-		_location = [newLocation retain];
+		_location = nil;
+		_location = [newLocation copy];
 	}
 }
 
