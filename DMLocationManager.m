@@ -273,7 +273,6 @@ static DMLocationManager* sharedLocationManager = nil;
 		{
 			[_queryingTimer invalidate];
 		}
-		[_queryingTimer release];
 		_queryingTimer = nil;
 	}
 }
@@ -312,7 +311,6 @@ static DMLocationManager* sharedLocationManager = nil;
 		{
 			[_loopTimer invalidate];
 		}
-		[_loopTimer release];
 		_loopTimer = nil;
 	}
 }
