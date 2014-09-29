@@ -96,7 +96,10 @@ static DMLocationManager* sharedLocationManager = nil;
 - (void)initLocationManager
 {
 	_locationManager	= [CLLocationManager new];
-	
+    if([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
+        [_locationManager requestAlwaysAuthorization];
+    }
+
 	_delegates			= [NSMutableArray new];
 	
 	_useCache			= YES;
