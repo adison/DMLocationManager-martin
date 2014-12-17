@@ -209,9 +209,13 @@ static DMLocationManager* sharedLocationManager = nil;
 {
 	for (id<DMLocationManagerDelegate> delegate in _delegates)
 	{
-		if ([delegate respondsToSelector: @selector(locationManager:didUpdateToLocation:fromLocation:)])
-			[delegate locationManager: _locationManager didUpdateToLocation: newLocation fromLocation: oldLocation];
-	}
+        if ([delegate respondsToSelector: @selector(locationManager:didUpdateToLocation:fromLocation:)]) {
+            [delegate locationManager: _locationManager didUpdateToLocation: newLocation fromLocation: oldLocation];
+        }
+        else if([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
+            [delegate locationManager:_locationManager didUpdateLocations:@[oldLocation]];
+        }
+    }
 }
 
 - (void)informDidFailWithError:(NSError*)error
